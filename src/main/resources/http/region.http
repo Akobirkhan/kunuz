@@ -1,0 +1,33 @@
+### 1. Create region
+POST localhost:8080/region/create
+Content-Type: application/json
+
+{
+  "nameUz": "Eshmat",
+  "nameRu": "Eshmatov",
+  "nameEn": "Eshmatovich",
+  "orderNumber": 15
+}
+
+### 2. Update region
+PUT localhost:8080/region/update/16
+Content-Type: application/json
+
+{
+  "nameUz": "Eshmat",
+  "nameRu": "Eshmatov",
+  "nameEn": "Eshmatovich",
+  "visible": false,
+  "orderNumber": 15
+}
+
+
+### 3. Delete region
+DELETE localhost:8080/region/delete/13
+
+### 4. Get all
+GET localhost:8080/region/all
+
+### 5. Get All By language
+GET localhost:8080/region/all/byLang?lang=uz
+

@@ -1,0 +1,33 @@
+### 1. Create category
+POST localhost:8080/category/create
+Content-Type: application/json
+
+{
+  "nameUz": "aewf",
+  "nameRu": "wCEQAWC",
+  "nameEn": "ertgscs",
+  "orderNumber": 4
+}
+
+### 2. Update category
+PUT localhost:8080/category/update/4
+Content-Type: application/json
+
+{
+  "nameUz": "wcg4fe",
+  "nameRu": "werfw",
+  "nameEn": "thge5r",
+  "visible": true,
+  "orderNumber": 4
+}
+
+
+### 3. Delete category
+DELETE localhost:8080/category/delete/4
+
+### 4. Get all
+GET localhost:8080/category/all
+
+### 5. Get All By language
+GET localhost:8080/category/all/byLang?lang=uz
+

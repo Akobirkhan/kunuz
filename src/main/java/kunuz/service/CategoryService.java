@@ -1,31 +1,33 @@
 package kunuz.service;
 
+import kunuz.dto.CategoryByLangDTO;
+import kunuz.dto.CategoryDTO;
 import kunuz.dto.RegionByLangDTO;
 import kunuz.dto.RegionDTO;
-import kunuz.dto.TypeByLangDTO;
-import kunuz.dto.TypeDTO;
+import kunuz.entity.CategoryEntity;
 import kunuz.entity.RegionEntity;
-import kunuz.entity.TypeEntity;
-import kunuz.repository.RegionRepository;
+import kunuz.repository.CategoryRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Getter
+@Setter
 @Service
-public class RegionService {
+public class CategoryService {
     @Autowired
-    private RegionRepository regionRepository;
-    public RegionDTO create(RegionDTO dto) {
-        RegionEntity entity = new RegionEntity();
+    private CategoryRepository categoryRepository;
+    public CategoryDTO create(CategoryDTO dto){
+        CategoryEntity entity = new CategoryEntity();
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setOrderNumber(dto.getOrderNumber());
-        regionRepository.save(entity);
+        categoryRepository.save(entity);
 
         dto.setId(entity.getId());
         dto.setVisible(entity.getVisible());
@@ -33,36 +35,35 @@ public class RegionService {
         return dto;
     }
 
-    public RegionDTO update(Integer id, RegionDTO dto) {
-        RegionEntity entity = get(id);
+    public CategoryDTO update(Integer id, CategoryDTO dto) {
+        CategoryEntity entity = get(id);
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setVisible(dto.getVisible());
-        regionRepository.save(entity);
+        categoryRepository.save(entity);
 
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setId(entity.getId());
         return dto;
     }
-
-    public RegionEntity get(Integer id) {
-        return regionRepository.findById(id).orElseThrow(()
-                -> new IllegalArgumentException("Region not found"));
+    public CategoryEntity get(Integer id) {
+        return categoryRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("Category not found"));
     }
-
     public Boolean delete(Integer id) {
-        RegionEntity entity = get(id);
-        regionRepository.delete(entity);
+
+        CategoryEntity entity = get(id);
+        categoryRepository.delete(entity);
         return true;
     }
 
-    public List<RegionDTO> getAll() {
-        Iterable<RegionEntity> iterable = regionRepository.findAll();
-        List<RegionDTO> dtoList = new LinkedList<>();
-        for (RegionEntity entity: iterable){
-            RegionDTO dto = new RegionDTO();
+    public List<CategoryDTO> getAll() {
+        Iterable<CategoryEntity> iterable = categoryRepository.findAllByOrderNumber();
+        List<CategoryDTO> dtoList = new LinkedList<>();
+        for (CategoryEntity entity: iterable){
+            CategoryDTO dto = new CategoryDTO();
             dto.setId(entity.getId());
             dto.setOrderNumber(entity.getOrderNumber());
             dto.setNameUz(entity.getNameUz());
@@ -75,11 +76,11 @@ public class RegionService {
         return dtoList;
     }
 
-    public List<RegionByLangDTO> getAllByLanguage(String lang) {
-        Iterable<RegionEntity> iterable = regionRepository.findAll();
-        List<RegionByLangDTO> dtoList = new LinkedList<>();
-        for (RegionEntity entity: iterable){
-            RegionByLangDTO dto = new RegionByLangDTO();
+    public List<CategoryByLangDTO> getAllByLanguage(String lang) {
+        Iterable<CategoryEntity> iterable = categoryRepository.findAll();
+        List<CategoryByLangDTO> dtoList = new LinkedList<>();
+        for (CategoryEntity entity: iterable){
+            CategoryByLangDTO dto = new CategoryByLangDTO();
             dto.setId(entity.getId());
 
             if (lang.equals("uz")){
@@ -95,6 +96,9 @@ public class RegionService {
         }
         return dtoList;
     }
+
+
+
 
 
 }

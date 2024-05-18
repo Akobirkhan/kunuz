@@ -34,14 +34,12 @@ public class RegionController {
         return ResponseEntity.ok(true);
     }
 
-    @GetMapping("/pagination")
-    public ResponseEntity<PageImpl<RegionDTO>> pageable(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                      @RequestParam(value = "size", defaultValue = "10") int size) {
-        PageImpl<RegionDTO> regionDTOPage = regionService.pagination(page - 1, size);
-        return ResponseEntity.ok().body(regionDTOPage);
+    @GetMapping("/all")
+    public List<RegionDTO> getAll() {
+        return regionService.getAll();
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all/byLang")
     public List<RegionByLangDTO> getAllByLanguage(@RequestParam("lang") String lang) {
         return regionService.getAllByLanguage(lang);
     }
