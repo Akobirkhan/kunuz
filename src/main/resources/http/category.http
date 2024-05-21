@@ -30,4 +30,5 @@ GET localhost:8080/category/all
 
 ### 5. Get All By language
 GET localhost:8080/category/lang
+Accept-Language: RU
 

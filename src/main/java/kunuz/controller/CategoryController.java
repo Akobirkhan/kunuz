@@ -1,6 +1,5 @@
 package kunuz.controller;
 import jakarta.validation.Valid;
-import kunuz.dto.CategoryByLangDTO;
 import kunuz.dto.CategoryCreateDTO;
 import kunuz.dto.CategoryDTO;
 import kunuz.enums.LanguageEnum;

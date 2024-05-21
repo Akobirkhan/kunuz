@@ -30,5 +30,5 @@ GET localhost:8080/region/all
 
 ### Get all by lang
 GET localhost:8080/region/lang
-Accept-Language: UZ
+Accept-Language: EN
 

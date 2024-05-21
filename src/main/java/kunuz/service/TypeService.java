@@ -1,10 +1,7 @@
 package kunuz.service;
 
-import kunuz.dto.RegionDTO;
-import kunuz.dto.TypeByLangDTO;
 import kunuz.dto.TypeCreateDTO;
 import kunuz.dto.TypeDTO;
-import kunuz.entity.RegionEntity;
 import kunuz.entity.TypeEntity;
 import kunuz.enums.LanguageEnum;
 import kunuz.exp.AppBadException;
@@ -13,12 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-
-import static kunuz.enums.LanguageEnum.*;
-
 @Service
 public class TypeService {
     @Autowired

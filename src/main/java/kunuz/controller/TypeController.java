@@ -1,8 +1,6 @@
 package kunuz.controller;
 
 import jakarta.validation.Valid;
-import kunuz.dto.RegionDTO;
-import kunuz.dto.TypeByLangDTO;
 import kunuz.dto.TypeCreateDTO;
 import kunuz.dto.TypeDTO;
 import kunuz.enums.LanguageEnum;
