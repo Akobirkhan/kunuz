@@ -28,6 +28,7 @@ DELETE localhost:8080/region/delete/13
 ### 4. Get all
 GET localhost:8080/region/all
 
-### 5. Get All By language
-GET localhost:8080/region/all/byLang?lang=uz
+### Get all by lang
+GET localhost:8080/region/lang
+Accept-Language: UZ
 

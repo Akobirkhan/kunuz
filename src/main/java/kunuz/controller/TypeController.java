@@ -1,7 +1,11 @@
 package kunuz.controller;
 
+import jakarta.validation.Valid;
+import kunuz.dto.RegionDTO;
 import kunuz.dto.TypeByLangDTO;
+import kunuz.dto.TypeCreateDTO;
 import kunuz.dto.TypeDTO;
+import kunuz.enums.LanguageEnum;
 import kunuz.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -17,23 +21,23 @@ public class TypeController {
     TypeService typeService;
 
     @PostMapping("/create")
-    public ResponseEntity<TypeDTO> create(@RequestBody TypeDTO dto) {
-        TypeDTO response = typeService.create(dto);
+    public ResponseEntity<TypeDTO> create(@Valid @RequestBody TypeCreateDTO type) {
+        TypeDTO response = typeService.create(type);
         return ResponseEntity.ok().body(response);
 
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<TypeDTO> update(@PathVariable("id") Integer id,
-                                          @RequestBody TypeDTO dto) {
-        TypeDTO response = typeService.update(id, dto);
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
+                                          @Valid @RequestBody TypeCreateDTO dto) {
+        Boolean result = typeService.update(id, dto);
+        return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
-        typeService.delete(id);
-        return ResponseEntity.ok(true);
+        Boolean result = typeService.delete(id);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/pagination")
@@ -43,8 +47,10 @@ public class TypeController {
         return ResponseEntity.ok().body(typeDTOPage);
     }
 
-    @GetMapping("/all")
-    public List<TypeByLangDTO> getAllByLanguage(@RequestParam("lang") String lang) {
-        return typeService.getAllByLanguage(lang);
+    @GetMapping("/lang")
+    public ResponseEntity<List<TypeDTO>> getAllByLang(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") LanguageEnum lang) {
+        List<TypeDTO> typeDTOList = typeService.getAllByLang(lang);
+        return ResponseEntity.ok().body(typeDTOList);
     }
 }

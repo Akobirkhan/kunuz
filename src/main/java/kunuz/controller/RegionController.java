@@ -1,10 +1,11 @@
 package kunuz.controller;
 
-import kunuz.dto.RegionByLangDTO;
+import jakarta.validation.Valid;
+import kunuz.dto.RegionCreateDTO;
 import kunuz.dto.RegionDTO;
+import kunuz.enums.LanguageEnum;
 import kunuz.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,33 +16,35 @@ public class RegionController {
     @Autowired
     private RegionService regionService;
     @PostMapping("/create")
-    public ResponseEntity<RegionDTO> create(@RequestBody RegionDTO dto) {
-        RegionDTO response = regionService.create(dto);
+    public ResponseEntity<RegionDTO> create(@Valid @RequestBody RegionCreateDTO region) {
+        RegionDTO response = regionService.create(region);
         return ResponseEntity.ok().body(response);
-
     }
 
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<RegionDTO> update(@PathVariable("id") Integer id,
-                                          @RequestBody RegionDTO dto) {
-        RegionDTO response = regionService.update(id, dto);
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<Boolean> updateRegion(@PathVariable("id") Integer id,
+                                                @Valid  @RequestBody RegionCreateDTO dto) {
+        Boolean result = regionService.update(id, dto);
+        return ResponseEntity.ok().body(result);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
-        regionService.delete(id);
-        return ResponseEntity.ok(true);
+        Boolean result = regionService.delete(id);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/all")
-    public List<RegionDTO> getAll() {
-        return regionService.getAll();
+    public ResponseEntity<List<RegionDTO>> all() {
+        return ResponseEntity.ok().body(regionService.getAll());
     }
 
-    @GetMapping("/all/byLang")
-    public List<RegionByLangDTO> getAllByLanguage(@RequestParam("lang") String lang) {
-        return regionService.getAllByLanguage(lang);
+    @GetMapping("/lang")
+    public ResponseEntity<List<RegionDTO>> getAllByLang(
+            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") LanguageEnum lang) {
+        List<RegionDTO> regionDTOList = regionService.getAllByLang(lang);
+        return ResponseEntity.ok().body(regionDTOList);
     }
 
 }

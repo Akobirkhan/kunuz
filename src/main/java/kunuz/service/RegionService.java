@@ -1,11 +1,11 @@
 package kunuz.service;
 
-import kunuz.dto.RegionByLangDTO;
-import kunuz.dto.RegionDTO;
-import kunuz.dto.TypeByLangDTO;
-import kunuz.dto.TypeDTO;
+import kunuz.dto.*;
 import kunuz.entity.RegionEntity;
 import kunuz.entity.TypeEntity;
+import kunuz.enums.LanguageEnum;
+import kunuz.exp.AppBadException;
+import kunuz.mapper.RegionMapper;
 import kunuz.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -16,40 +16,33 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
-    public RegionDTO create(RegionDTO dto) {
+    public RegionDTO create(RegionCreateDTO dto) {
         RegionEntity entity = new RegionEntity();
+        entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
-        entity.setOrderNumber(dto.getOrderNumber());
+
         regionRepository.save(entity);
-
-        dto.setId(entity.getId());
-        dto.setVisible(entity.getVisible());
-        dto.setCreatedDate(entity.getCreatedDate());
-        return dto;
+        return toDTO(entity);
     }
-
-    public RegionDTO update(Integer id, RegionDTO dto) {
+    public Boolean update(Integer id, RegionCreateDTO dto) {
         RegionEntity entity = get(id);
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setOrderNumber(dto.getOrderNumber());
-        entity.setVisible(dto.getVisible());
         regionRepository.save(entity);
-
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setId(entity.getId());
-        return dto;
+        return true;
     }
 
     public RegionEntity get(Integer id) {
         return regionRepository.findById(id).orElseThrow(()
-                -> new IllegalArgumentException("Region not found"));
+                -> new AppBadException("Region not found"));
     }
 
     public Boolean delete(Integer id) {
@@ -61,36 +54,48 @@ public class RegionService {
     public List<RegionDTO> getAll() {
         Iterable<RegionEntity> iterable = regionRepository.findAll();
         List<RegionDTO> dtoList = new LinkedList<>();
-        for (RegionEntity entity: iterable){
+        for (RegionEntity entity : iterable) {
+            dtoList.add(toDTO(entity));
+        }
+        return dtoList;
+    }
+
+    public List<RegionDTO> getAllByLang(LanguageEnum lang) {
+        Iterable<RegionEntity> iterable = regionRepository.findAllByVisibleTrueOrderByOrderNumberDesc();
+        List<RegionDTO> dtoList = new LinkedList<>();
+        for (RegionEntity entity : iterable) {
             RegionDTO dto = new RegionDTO();
             dto.setId(entity.getId());
-            dto.setOrderNumber(entity.getOrderNumber());
-            dto.setNameUz(entity.getNameUz());
-            dto.setNameRu(entity.getNameRu());
-            dto.setNameEn(entity.getNameEn());
-            dto.setVisible(entity.getVisible());
-            dto.setCreatedDate(entity.getCreatedDate());
+            switch (lang) {
+                case EN -> dto.setName(entity.getNameEn());
+                case UZ -> dto.setName(entity.getNameUz());
+                case RU -> dto.setName(entity.getNameRu());
+            }
             dtoList.add(dto);
         }
         return dtoList;
     }
 
-    public List<RegionByLangDTO> getAllByLanguage(String lang) {
-        Iterable<RegionEntity> iterable = regionRepository.findAll();
-        List<RegionByLangDTO> dtoList = new LinkedList<>();
-        for (RegionEntity entity: iterable){
-            RegionByLangDTO dto = new RegionByLangDTO();
+    public RegionDTO toDTO(RegionEntity entity){
+        RegionDTO dto = new RegionDTO();
+        dto.setId(entity.getId());
+        dto.setNameUz(entity.getNameUz());
+        dto.setNameEn(entity.getNameEn());
+        dto.setNameRu(entity.getNameRu());
+        dto.setOrderNumber(entity.getOrderNumber());
+        dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
+    }
+
+
+
+    public List<RegionDTO> getAllByLang2(LanguageEnum lang) {
+        List<RegionMapper> mapperList = regionRepository.findAll(lang.name());
+        List<RegionDTO> dtoList = new LinkedList<>();
+        for (RegionMapper entity : mapperList) {
+            RegionDTO dto = new RegionDTO();
             dto.setId(entity.getId());
-
-            if (lang.equals("uz")){
-                dto.setName(entity.getNameUz());
-            }else if (lang.equals("ru")){
-                dto.setName(entity.getNameRu());
-            }else {
-                dto.setName(entity.getNameEn());
-            }
-
-            dto.setOrderNumber(entity.getOrderNumber());
+            dto.setName(entity.getName());
             dtoList.add(dto);
         }
         return dtoList;

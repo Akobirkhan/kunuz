@@ -1,8 +1,13 @@
 package kunuz.service;
 
+import kunuz.dto.RegionDTO;
 import kunuz.dto.TypeByLangDTO;
+import kunuz.dto.TypeCreateDTO;
 import kunuz.dto.TypeDTO;
+import kunuz.entity.RegionEntity;
 import kunuz.entity.TypeEntity;
+import kunuz.enums.LanguageEnum;
+import kunuz.exp.AppBadException;
 import kunuz.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -11,42 +16,38 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+
+import static kunuz.enums.LanguageEnum.*;
+
 @Service
 public class TypeService {
     @Autowired
     private TypeRepository typeRepository;
-    public TypeDTO create(TypeDTO dto) {
+    public TypeDTO create(TypeCreateDTO dto) {
         TypeEntity entity = new TypeEntity();
+        entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
-        entity.setOrderNumber(dto.getOrderNumber());
-        entity.setCreatedDate(LocalDateTime.now());
-        typeRepository.save(entity);
 
-        dto.setId(entity.getId());
-        dto.setCreatedDate(entity.getCreatedDate());
-        return dto;
+        typeRepository.save(entity);
+        return toDTO(entity);
     }
 
-    public TypeDTO update(Integer id, TypeDTO dto) {
+    public Boolean update(Integer id, TypeCreateDTO dto) {
         TypeEntity entity = get(id);
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setOrderNumber(dto.getOrderNumber());
-        entity.setCreatedDate(LocalDateTime.now());
         typeRepository.save(entity);
-
-        dto.setId(entity.getId());
-        dto.setCreatedDate(entity.getCreatedDate());
-        return dto;
+        return true;
 
     }
 
     public TypeEntity get(Integer id) {
         return typeRepository.findById(id).orElseThrow(()
-                -> new IllegalArgumentException("Type not found"));
+                -> new AppBadException("Type not found"));
     }
 
     public Boolean delete(Integer id) {
@@ -78,24 +79,31 @@ public class TypeService {
     }
 
 
-    public List<TypeByLangDTO> getAllByLanguage(String lang) {
+    public List<TypeDTO> getAllByLang(LanguageEnum lang) {
         Iterable<TypeEntity> iterable = typeRepository.findAll();
-        List<TypeByLangDTO> dtoList = new LinkedList<>();
+        List<TypeDTO> dtoList = new LinkedList<>();
         for (TypeEntity entity: iterable){
-            TypeByLangDTO dto = new TypeByLangDTO();
+            TypeDTO dto = new TypeDTO();
             dto.setId(entity.getId());
-
-            if (lang.equals("uz")){
-                dto.setName(entity.getNameUz());
-            }else if (lang.equals("ru")){
-                dto.setName(entity.getNameRu());
-            }else {
-                dto.setName(entity.getNameEn());
+            switch (lang) {
+                case EN -> dto.setName(entity.getNameEn());
+                case UZ -> dto.setName(entity.getNameUz());
+                case RU -> dto.setName(entity.getNameRu());
             }
-
-            dto.setOrderNumber(entity.getOrderNumber());
             dtoList.add(dto);
         }
         return dtoList;
     }
+
+    public TypeDTO toDTO(TypeEntity entity){
+        TypeDTO dto = new TypeDTO();
+        dto.setId(entity.getId());
+        dto.setNameUz(entity.getNameUz());
+        dto.setNameEn(entity.getNameEn());
+        dto.setNameRu(entity.getNameRu());
+        dto.setOrderNumber(entity.getOrderNumber());
+        dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
+    }
+
 }

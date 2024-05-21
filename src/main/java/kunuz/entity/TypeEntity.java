@@ -22,6 +22,8 @@ public class TypeEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
+    @Column(name = "visible")
+    private Boolean visible=Boolean.TRUE;
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 }
