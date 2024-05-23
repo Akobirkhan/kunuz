@@ -1,13 +1,11 @@
 package kunuz.service;
 
-import kunuz.dto.CategoryCreateDTO;
-import kunuz.dto.CategoryDTO;
-import kunuz.dto.RegionDTO;
+import kunuz.dto.category.CategoryCreateDTO;
+import kunuz.dto.category.CategoryDTO;
 import kunuz.entity.CategoryEntity;
 import kunuz.enums.LanguageEnum;
 import kunuz.exp.AppBadException;
 import kunuz.mapper.CategoryMapper;
-import kunuz.mapper.RegionMapper;
 import kunuz.repository.CategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

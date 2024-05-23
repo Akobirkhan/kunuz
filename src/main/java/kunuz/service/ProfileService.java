@@ -1,41 +1,109 @@
 package kunuz.service;
 
-import kunuz.dto.ProfileCreateDTO;
-import kunuz.dto.ProfileDTO;
+import kunuz.dto.FilterResponseDTO;
+import kunuz.dto.profile.ProfileCreateDTO;
+import kunuz.dto.profile.ProfileDTO;
+import kunuz.dto.profile.ProfileFilterDTO;
 import kunuz.entity.ProfileEntity;
+import kunuz.enums.ProfileRole;
+import kunuz.enums.ProfileStatus;
+import kunuz.exp.AppBadException;
+import kunuz.repository.ProfileCustomRepository;
 import kunuz.repository.ProfileRepository;
+import kunuz.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileCustomRepository customRepository;
+
     public ProfileDTO create(ProfileCreateDTO dto) {
+        ProfileEntity save = profileRepository.save(toEntity(dto));
+        return toDTO(save);
+    }
+
+    public Page<ProfileDTO> getAll(int pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("createdDate").descending());
+        Page<ProfileEntity> entityPage = profileRepository.findAllByVisibleTrue(pageable);
+        List<ProfileDTO> list = entityPage.getContent().stream()
+                .map(this::toDTO)
+                .toList();
+        Long totalElements = entityPage.getTotalElements();
+        return new PageImpl<ProfileDTO>(list, pageable, totalElements);
+    }
+
+    public ProfileDTO update(Integer id, ProfileCreateDTO dto) {
+        ProfileEntity entity = get(id);
+
+        if (dto.getName()!=null){
+            entity.setName(dto.getName());
+        }
+        if (dto.getSurname()!=null){
+            entity.setSurname(dto.getSurname());
+        }
+
+        if (dto.getEmail()!=null){
+            entity.setEmail(dto.getEmail());
+        }
+
+        if (dto.getPassword()!=null){
+            entity.setPassword(dto.getPassword());
+        }
+
+        if (dto.getPhone()!=null){
+            entity.setPhone(dto.getPhone());
+        }
+
+        ProfileEntity saved = profileRepository.save(entity);
+        return toDTO(saved);
+    }
+    public Boolean delete(Integer id) {
+        ProfileEntity entity = get(id);
+        profileRepository.delete(entity);
+        return true;
+    }
+
+    public Page<ProfileDTO> filter(ProfileFilterDTO dto, Integer pageNumber, Integer pageSize) {
+        FilterResponseDTO<ProfileEntity> filterResponse = customRepository.filter(dto, pageNumber, pageSize);
+        List<ProfileDTO> dtoList = filterResponse.getContent().stream()
+                .map(this::toDTO)
+                .toList();
+        Long totalCount = filterResponse.getTotalCount();
+        return new PageImpl<>(dtoList,PageRequest.of(pageNumber,pageSize),totalCount);
+    }
+
+    public ProfileEntity get(Integer id){
+        return profileRepository.findById(id).orElseThrow(()-> new AppBadException("profile not found"));
+    }
+
+    private ProfileEntity toEntity(ProfileCreateDTO dto) {
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
+        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhone(dto.getPhone());
-        entity.setPassword(dto.getPassword());
-        entity.setStatus(dto.getStatus());
-        entity.setRole(dto.getRole());
-
-        profileRepository.save(entity);
-        return toDTO(entity);
+        entity.setRole(ProfileRole.ROLE_USER);
+        entity.setStatus(ProfileStatus.ACTIVE);
+        return entity;
     }
 
-    public ProfileDTO toDTO(ProfileEntity entity){
+    private ProfileDTO toDTO(ProfileEntity entity) {
         ProfileDTO dto = new ProfileDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());
         dto.setEmail(entity.getEmail());
         dto.setPhone(entity.getPhone());
-        dto.setPassword(entity.getPassword());
-        dto.setStatus(entity.getStatus());
         dto.setRole(entity.getRole());
-        dto.setVisible(entity.getVisible());
+        dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }

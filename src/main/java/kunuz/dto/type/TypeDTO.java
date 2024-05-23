@@ -1,15 +1,14 @@
-package kunuz.dto;
+package kunuz.dto.type;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryDTO {
+public class TypeDTO {
     private Integer id;
     private Integer orderNumber;
     private String nameUz;

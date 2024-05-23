@@ -1,8 +1,8 @@
 package kunuz.controller;
 
 import jakarta.validation.Valid;
-import kunuz.dto.RegionCreateDTO;
-import kunuz.dto.RegionDTO;
+import kunuz.dto.region.RegionCreateDTO;
+import kunuz.dto.region.RegionDTO;
 import kunuz.enums.LanguageEnum;
 import kunuz.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;

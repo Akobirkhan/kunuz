@@ -1,17 +1,15 @@
 package kunuz.service;
 
-import kunuz.dto.*;
+import kunuz.dto.region.RegionCreateDTO;
+import kunuz.dto.region.RegionDTO;
 import kunuz.entity.RegionEntity;
-import kunuz.entity.TypeEntity;
 import kunuz.enums.LanguageEnum;
 import kunuz.exp.AppBadException;
 import kunuz.mapper.RegionMapper;
 import kunuz.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 

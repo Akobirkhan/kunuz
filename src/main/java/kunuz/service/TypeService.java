@@ -1,7 +1,7 @@
 package kunuz.service;
 
-import kunuz.dto.TypeCreateDTO;
-import kunuz.dto.TypeDTO;
+import kunuz.dto.type.TypeCreateDTO;
+import kunuz.dto.type.TypeDTO;
 import kunuz.entity.TypeEntity;
 import kunuz.enums.LanguageEnum;
 import kunuz.exp.AppBadException;

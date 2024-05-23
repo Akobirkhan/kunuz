@@ -1,8 +1,8 @@
 package kunuz.controller;
 
 import jakarta.validation.Valid;
-import kunuz.dto.TypeCreateDTO;
-import kunuz.dto.TypeDTO;
+import kunuz.dto.type.TypeCreateDTO;
+import kunuz.dto.type.TypeDTO;
 import kunuz.enums.LanguageEnum;
 import kunuz.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;

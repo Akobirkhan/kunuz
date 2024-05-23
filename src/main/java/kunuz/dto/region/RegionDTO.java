@@ -1,4 +1,4 @@
-package kunuz.dto;
+package kunuz.dto.region;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

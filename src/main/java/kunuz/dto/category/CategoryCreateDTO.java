@@ -1,4 +1,4 @@
-package kunuz.dto;
+package kunuz.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
