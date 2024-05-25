@@ -1,4 +1,4 @@
-package kunuz.dto;
+package kunuz.dto.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

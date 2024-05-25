@@ -1,6 +1,6 @@
 package kunuz.service;
 
-import kunuz.dto.FilterResponseDTO;
+import kunuz.dto.profile.FilterResponseDTO;
 import kunuz.dto.profile.ProfileCreateDTO;
 import kunuz.dto.profile.ProfileDTO;
 import kunuz.dto.profile.ProfileFilterDTO;

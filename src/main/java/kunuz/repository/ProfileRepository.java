@@ -18,4 +18,8 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, Integer>
     @Modifying
     @Query("update ProfileEntity set status = ?2 where id=?1")
     void updateStatus(Integer userId, ProfileStatus profileStatus);
+
+    ProfileEntity findByPhone(String phone);
+
+    Optional<ProfileEntity> findByPhoneAndVisibleTrue(String phone);
 }

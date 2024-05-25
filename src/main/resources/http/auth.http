@@ -1,0 +1,22 @@
+### Registration
+POST localhost:8080/auth/registration
+Content-Type: application/json
+
+{
+  "name": "Akobir",
+  "surname": "Qodirov",
+  "email": "akobirqodiriy@gmail.com",
+  "password": "Child_2123ab"
+}
+
+### Verification
+GET localhost:8080/auth/verification/3
+
+### login
+POST localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "akobirqodiriy@gmail.com",
+  "password": "Child_2123ab"
+}

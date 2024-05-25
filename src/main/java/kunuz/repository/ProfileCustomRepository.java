@@ -3,7 +3,7 @@ package kunuz.repository;
 import jakarta.persistence.EntityManager;
 
 import jakarta.persistence.Query;
-import kunuz.dto.FilterResponseDTO;
+import kunuz.dto.profile.FilterResponseDTO;
 import kunuz.dto.profile.ProfileFilterDTO;
 import kunuz.entity.ProfileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
