@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RegistrationDTO {
+public class RegistrationByEmailDTO {
     @NotBlank
     private String name;
     @NotBlank

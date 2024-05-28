@@ -6,10 +6,7 @@ import kunuz.exp.AppBadException;
 import kunuz.repository.EmailHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,6 +20,14 @@ public class EmailHistoryService {
     @Autowired
     private EmailHistoryRepository emailHistoryRepository;
 
+    public void save(String email, String message) {
+        EmailHistoryEntity entity = new EmailHistoryEntity();
+        entity.setEmail(email);
+        entity.setMessage(message);
+        entity.setCreatedDate(LocalDateTime.now());
+        emailHistoryRepository.save(entity);
+    }
+
     public List<EmailHistoryDTO> getAllByEmail(String email) {
         List<EmailHistoryDTO> dtoList = emailHistoryRepository.findAllByEmail(email)
                 .stream()
@@ -32,15 +37,16 @@ public class EmailHistoryService {
     }
 
     public List<EmailHistoryDTO> getAllByGivenDate(LocalDate date) {
-        List<EmailHistoryDTO> dtoList = emailHistoryRepository.findAllByCreatedDate(date)
-                .stream()
+        LocalDate from = date;
+        LocalDate to = date.plusDays(1);
+        List<EmailHistoryDTO> dtoList = emailHistoryRepository.findAllByGivenDate(from, to).stream()
                 .map(this::toDTO)
                 .toList();
         return dtoList;
     }
 
     public Page<EmailHistoryDTO> pagination(Integer pageNumber, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("createdDate"));
         Page<EmailHistoryEntity> entityPage = emailHistoryRepository.findAllBy(pageable);
 
         List<EmailHistoryDTO> dtoList = entityPage.getContent().stream()
@@ -49,7 +55,7 @@ public class EmailHistoryService {
 
         long totalElements = entityPage.getTotalElements();
 
-        return new PageImpl<EmailHistoryDTO>(dtoList,pageable,totalElements);
+        return new PageImpl<EmailHistoryDTO>(dtoList, pageable, totalElements);
     }
 
     private EmailHistoryDTO toDTO(EmailHistoryEntity entity) {
@@ -61,23 +67,6 @@ public class EmailHistoryService {
         return dto;
     }
 
-    public void checkEmailLimit(String email) { // 1 minute -3 attempt
-        // 23/05/2024 19:01:13
-        // 23/05/2024 19:01:23
-        // 23/05/2024 19:01:33
-
-        // 23/05/2024 19:00:55 -- (current -1)
-        // 23/05/2024 19:01:55 -- current
-
-        LocalDateTime to = LocalDateTime.now();
-        LocalDateTime from = to.minusMinutes(2);
-
-        long count = emailHistoryRepository.countByEmailAndCreatedDateBetween(email, from, to);
-        if (count >=3) {
-            throw new AppBadException("Sms limit reached. Please try after some time");
-        }
-    }
-
     public void isNotExpiredEmail(String email) {
         Optional<EmailHistoryEntity> optional = emailHistoryRepository.findByEmail(email);
         if (optional.isEmpty()) {
@@ -86,6 +75,16 @@ public class EmailHistoryService {
         EmailHistoryEntity entity = optional.get();
         if (entity.getCreatedDate().plusDays(1).isBefore(LocalDateTime.now())) {
             throw new AppBadException("Confirmation time expired");
+        }
+    }
+
+    public void checkEmailLimit(String email) {
+        LocalDateTime to = LocalDateTime.now();
+        LocalDateTime from = to.minusMinutes(1);
+
+        Long emailCount = emailHistoryRepository.countByEmailAndCreatedDateBetween(email, from, to);
+        if (emailCount > 1) {
+            throw new AppBadException("Email limit reached. Please try after some time");
         }
     }
 }

@@ -9,8 +9,13 @@ import lombok.Setter;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegistrationByPhoneDTO {
-
-    private String phone    ;
     @NotBlank
-    private String code;
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String surname;
+    @NotBlank
+    private String phone;
+    @NotBlank
+    private String password;
 }

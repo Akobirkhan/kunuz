@@ -1,22 +1,55 @@
-### Registration
-POST localhost:8080/auth/registration
+### Registration with phone
+POST localhost:8081/auth/registrWithPhone
+Content-Type: application/json
+
+{
+  "name": "Akobir",
+  "surname": "Qodirov",
+  "phone": "998979213344",
+  "password": "12345"
+}
+### Registration with email
+POST localhost:8081/auth/registrWithEmail
 Content-Type: application/json
 
 {
   "name": "Akobir",
   "surname": "Qodirov",
   "email": "akobirqodiriy@gmail.com",
-  "password": "Child_2123ab"
+  "password": "12345"
 }
 
-### Verification
-GET localhost:8080/auth/verification/3
+### resend sms
+GET localhost:8081/auth/registration/resendSms/998979213344
 
-### login
-POST localhost:8080/auth/login
+### resend email
+GET localhost:8081/auth/registration/resend/akobirqodiriy@gmail.com
+
+### verification with phone
+POST localhost:8081/auth/verificationWithSms
 Content-Type: application/json
 
 {
-  "email": "akobirqodiriy@gmail.com",
-  "password": "Child_2123ab"
+  "phone": "998946486808",
+  "message": "72855"
+}
+
+
+### login with email
+POST localhost:8081/auth/loginWithEmail
+Content-Type: application/json
+
+{
+  "email": "mazgi@gmail.com",
+  "password": "12345"
+}
+
+### login with phone
+POST localhost:8081/auth/loginWithPhone
+Content-Type: application/json
+
+{
+
+  "phone": "998940460720",
+  "password": "12345"
 }

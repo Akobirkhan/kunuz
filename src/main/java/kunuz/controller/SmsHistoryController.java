@@ -3,6 +3,7 @@ package kunuz.controller;
 import kunuz.dto.SmsHistoryDTO;
 import kunuz.service.SmsHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,10 @@ import java.util.List;
 public class SmsHistoryController {
     @Autowired
     private SmsHistoryService smsHistoryService;
-    @GetMapping("/ByPhone")
-    public ResponseEntity<List<SmsHistoryDTO>> getAllByPhone(@RequestParam String phone) {
-        List<SmsHistoryDTO> dtoList = smsHistoryService.getAllByPhone(phone);
+
+    @GetMapping("/byPhone")
+    public ResponseEntity<List<SmsHistoryDTO>> getByPhone(@RequestParam String phone) {
+        List<SmsHistoryDTO> dtoList = smsHistoryService.getByPhone(phone);
         return ResponseEntity.ok(dtoList);
     }
 
@@ -29,5 +31,10 @@ public class SmsHistoryController {
         return ResponseEntity.ok(dtoList);
     }
 
-
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<SmsHistoryDTO>> pagination(@RequestParam Integer pageNumber,
+                                                          @RequestParam Integer pageSize) {
+        Page<SmsHistoryDTO> page = smsHistoryService.pagination(pageNumber - 1, pageSize);
+        return ResponseEntity.ok(page);
+    }
 }

@@ -3,6 +3,8 @@ package kunuz.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "email_history")
+@EntityListeners(AuditingEntityListener.class)
 public class EmailHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +21,7 @@ public class EmailHistoryEntity {
     private String message;
     @Column(name = "email")
     private String email;
+    @CreatedDate
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 }
