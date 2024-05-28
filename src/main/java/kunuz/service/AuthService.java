@@ -1,8 +1,11 @@
 package kunuz.service;
 
+import kunuz.dto.SmsHistoryDTO;
+import kunuz.dto.auth.LoginByPhoneDTO;
 import kunuz.dto.auth.LoginDTO;
+import kunuz.dto.auth.RegistrationByEmailDTO;
 import kunuz.dto.auth.RegistrationByPhoneDTO;
-import kunuz.dto.auth.RegistrationDTO;
+import kunuz.dto.profile.ProfileDTO;
 import kunuz.entity.ProfileEntity;
 import kunuz.entity.SmsHistoryEntity;
 import kunuz.enums.ProfileRole;
@@ -27,112 +30,118 @@ public class AuthService {
     @Autowired
     private EmailSenderService emailSenderService;
     @Autowired
+    private EmailHistoryService emailHistoryService;
+    @Autowired
     private SmsSenderService smsSenderService;
-    public String registration(RegistrationDTO dto) {
+    @Autowired
+    private SmsHistoryService smsHistoryService;
+
+    public String registrWithEmail(RegistrationByEmailDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (optional.isPresent()) {
             throw new AppBadException("Email already exists");
         }
-
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
-
         entity.setCreatedDate(LocalDateTime.now());
         entity.setRole(ProfileRole.ROLE_USER);
         entity.setStatus(ProfileStatus.REGISTRATION);
 
         profileRepository.save(entity);
-        // send email
-        String url = "http://localhost:8080/auth/verification/" + entity.getId();
-        String formatText = "<style>\n" +
-                "    a:link, a:visited {\n" +
-                "        background-color: #f44336;\n" +
-                "        color: white;\n" +
-                "        padding: 14px 25px;\n" +
-                "        text-align: center;\n" +
-                "        text-decoration: none;\n" +
-                "        display: inline-block;\n" +
-                "    }\n" +
-                "\n" +
-                "    a:hover, a:active {\n" +
-                "        background-color: red;\n" +
-                "    }\n" +
-                "</style>\n" +
-                "<div style=\"text-align: center\">\n" +
-                "    <h1>Welcome to kun.uz web portal</h1>\n" +
-                "    <br>\n" +
-                "    <p>Please click button  below to complete registration</p>\n" +
-                "    <div style=\"text-align: center\">\n" +
-                "        <a href=\"%s\" target=\"_blank\">This is a link</a>\n" +
-                "    </div>";
-        String text = String.format(formatText, url);
-        emailSenderService.send(dto.getEmail(), "Complete registration", text);
+        emailSenderService.sendEmail(entity.getId(),entity.getEmail());
         return "To complete your registration please verify your email.";
-
     }
 
-    public String registrationByPhone(RegistrationByPhoneDTO dto) {
+    public String registrWithPhone(RegistrationByPhoneDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(dto.getPhone());
         if (optional.isPresent()) {
-            throw new AppBadException("Phone already exists");
+            throw new AppBadException("phone already exists");
         }
-
         ProfileEntity entity = new ProfileEntity();
-        entity.setEmail(dto.getPhone());
-        entity.setPassword(dto.getCode());
-
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        entity.setPhone(dto.getPhone());
+        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setCreatedDate(LocalDateTime.now());
         entity.setRole(ProfileRole.ROLE_USER);
         entity.setStatus(ProfileStatus.REGISTRATION);
 
         profileRepository.save(entity);
-        // send sms
-
-        String url = "http://localhost:8080/auth/verification/" + entity.getId();
-        String formatText = "<style>\n" +
-                "    a:link, a:visited {\n" +
-                "        background-color: #f44336;\n" +
-                "        color: white;\n" +
-                "        padding: 14px 25px;\n" +
-                "        text-align: center;\n" +
-                "        text-decoration: none;\n" +
-                "        display: inline-block;\n" +
-                "    }\n" +
-                "\n" +
-                "    a:hover, a:active {\n" +
-                "        background-color: red;\n" +
-                "    }\n" +
-                "</style>\n" +
-                "<div style=\"text-align: center\">\n" +
-                "    <h1>Welcome to kun.uz web portal</h1>\n" +
-                "    <br>\n" +
-                "    <p>Please click button  below to complete registration</p>\n" +
-                "    <div style=\"text-align: center\">\n" +
-                "        <a href=\"%s\" target=\"_blank\">This is a link</a>\n" +
-                "    </div>";
-        String text = String.format(formatText, url);
-        emailSenderService.send(dto.getPhone(), "Complete registration", text);
-        return "To complete your registration please verify your email.";
-
+        smsSenderService.sendSms(dto.getPhone());
+        return "To complete your registration please verify your sms.";
     }
 
-    public String authorizationVerification(Integer userId) {
+    public String verifyWithEmail(Integer userId) {
         Optional<ProfileEntity> optional = profileRepository.findById(userId);
         if (optional.isEmpty()) {
             throw new AppBadException("User not found");
         }
         ProfileEntity entity = optional.get();
+        emailHistoryService.isNotExpiredEmail(entity.getEmail());  // check for expiration date
         if (!entity.getVisible() || !entity.getStatus().equals(ProfileStatus.REGISTRATION)) {
             throw new AppBadException("Registration not completed");
         }
         profileRepository.updateStatus(userId, ProfileStatus.ACTIVE);
-        return "Success";
+        return "registration finished successfully ";
     }
 
-    public String login(LoginDTO dto) {
+    public String verifyWithSms(SmsHistoryDTO dto) {
+        Optional<ProfileEntity> optionalProfile = profileRepository.findByPhoneAndVisibleTrue(dto.getPhone());
+        if (optionalProfile.isEmpty()) {
+            throw new AppBadException("User not found");
+        }
+        ProfileEntity profileEntity = optionalProfile.get();
+        if (!profileEntity.getStatus().equals(ProfileStatus.REGISTRATION)) {
+            throw new AppBadException("Registration not completed");
+        }
+
+        Optional<SmsHistoryEntity> optionalSms = smsHistoryRepository.findTopByPhoneOrderByCreatedDateDesc(dto.getPhone());
+        if (optionalSms.isEmpty()){
+            throw new AppBadException("phone not found");
+        }
+        SmsHistoryEntity smsEntity = optionalSms.get();
+        smsHistoryService.isExpired(smsEntity.getPhone()); // check for expiration time
+        if (!smsEntity.getMessage().equals(dto.getMessage())){
+            throw new AppBadException("wrong password");
+        }
+
+        profileRepository.updateStatus(profileEntity.getId(), ProfileStatus.ACTIVE);
+        return "registration finished successfully ";
+    }
+
+    public String resendEmail(String email){
+        Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(email);
+        if (optional.isEmpty()){
+            throw new AppBadException("Email not exists");
+        }
+        ProfileEntity entity = optional.get();
+        if (!entity.getStatus().equals(ProfileStatus.REGISTRATION)){
+            throw new AppBadException("Registration not completed");
+        }
+
+        emailHistoryService.checkEmailLimit(email);
+        emailSenderService.sendEmail(entity.getId(),email);
+        return "To complete your registration please verify your email.";
+    }
+
+    public String resendSms(String phone) {
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(phone);
+        if (optional.isEmpty()){
+            throw new AppBadException("phone not exists");
+        }
+        ProfileEntity entity = optional.get();
+        if (!entity.getStatus().equals(ProfileStatus.REGISTRATION)){
+            throw new AppBadException("Registration not completed");
+        }
+        smsHistoryService.checkSmsLimit(phone); // check for limit
+        smsSenderService.sendSms(phone);
+        return "To complete your registration please verify your email.";
+    }
+
+    public ProfileDTO loginWithEmail(LoginDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (optional.isEmpty()) {
             throw new AppBadException("User not found");
@@ -144,22 +153,33 @@ public class AuthService {
         if(entity.getStatus().equals(ProfileStatus.NOT_ACTIVE)||entity.getStatus().equals(ProfileStatus.REGISTRATION)){
             throw new AppBadException("User should be  active");
         }
-        return "Success";
+        ProfileDTO response = new ProfileDTO();
+        response.setId(entity.getId());
+        response.setName(entity.getName());
+        response.setSurname(entity.getSurname());
+        response.setPhone(entity.getPhone());
+        response.setCreatedDate(entity.getCreatedDate());
+        return response;
     }
 
-    public String authorizationVerificationPhone(RegistrationByPhoneDTO request) {
-        SmsHistoryEntity optional = smsHistoryRepository.findByPhone(request.getPhone());
-        if (optional==null) {
-            throw new AppBadException("Code jonatilmagan not found");
+    public ProfileDTO loginWithPhone(LoginByPhoneDTO dto) {
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            throw new AppBadException("User not found");
         }
-        if (LocalDateTime.now().minusMinutes(3).isBefore(optional.getCreatedDate())){
-            ProfileEntity byPhone = profileRepository.findByPhone(request.getPhone());
-            if (byPhone!=null){
-                profileRepository.updateStatus(byPhone.getId(), ProfileStatus.ACTIVE);
-                return "Success";
-            }
+        ProfileEntity entity = optional.get();
+        if (!entity.getPassword().equals(MD5Util.getMd5(dto.getPassword()))) {
+            throw new AppBadException("Wrong password");
         }
-        return "Fail";
-
+        if(entity.getStatus().equals(ProfileStatus.NOT_ACTIVE)||entity.getStatus().equals(ProfileStatus.REGISTRATION)){
+            throw new AppBadException("User should be  active");
+        }
+        ProfileDTO response = new ProfileDTO();
+        response.setId(entity.getId());
+        response.setName(entity.getName());
+        response.setSurname(entity.getSurname());
+        response.setPhone(entity.getPhone());
+        response.setCreatedDate(entity.getCreatedDate());
+        return response;
     }
 }

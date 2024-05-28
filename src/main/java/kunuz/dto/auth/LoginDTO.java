@@ -15,4 +15,5 @@ public class LoginDTO {
     @NotBlank(message = "password required")
     @Size(min = 5, message = "password length minimum 5 characters")
     private String password;
+
 }

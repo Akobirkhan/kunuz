@@ -36,7 +36,7 @@ public class SmsSenderService {
 
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("mobile_phone", prPhone)
-                .addFormDataPart("message", message)
+                .addFormDataPart("message", "Bu Eskiz dan test 9090")
                 .addFormDataPart("from", "4546")
                 .build();
 
@@ -51,7 +51,7 @@ public class SmsSenderService {
             if (response.isSuccessful()) {
                 System.out.println(response);
             } else {
-                throw new IOException();
+                System.out.println(response.body().string());
             }
         } catch (IOException e) {
             e.printStackTrace();

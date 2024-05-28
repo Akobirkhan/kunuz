@@ -1,9 +1,12 @@
 package kunuz.controller;
 
 import jakarta.validation.Valid;
+import kunuz.dto.SmsHistoryDTO;
+import kunuz.dto.auth.LoginByPhoneDTO;
 import kunuz.dto.auth.LoginDTO;
+import kunuz.dto.auth.RegistrationByEmailDTO;
 import kunuz.dto.auth.RegistrationByPhoneDTO;
-import kunuz.dto.auth.RegistrationDTO;
+import kunuz.dto.profile.ProfileDTO;
 import kunuz.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,33 +18,51 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/registration")
-    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationDTO dto) {
-        String body = authService.registration(dto);
+    @PostMapping("/registrWithEmail")
+    public ResponseEntity<String> registrWithEmail(@Valid @RequestBody RegistrationByEmailDTO dto) {
+        String body = authService.registrWithEmail(dto);
         return ResponseEntity.ok().body(body);
     }
 
-    @PostMapping("/registration/by_phone")
-    public ResponseEntity<String> registrationByPhone(@Valid @RequestBody RegistrationByPhoneDTO dto) {
-        String body = authService.registrationByPhone(dto);
+    @PostMapping("/registrWithPhone")
+    public ResponseEntity<String> registrWithPhone(@Valid @RequestBody RegistrationByPhoneDTO dto) {
+        String body = authService.registrWithPhone(dto);
         return ResponseEntity.ok().body(body);
     }
 
-    @GetMapping("/verification/{userId}")
-    public ResponseEntity<String> verification(@PathVariable("userId") Integer userId) {
-        String body = authService.authorizationVerification(userId);
+    @GetMapping("/verifyWithEmail/{userId}")
+    public ResponseEntity<String> verifyWithEmail(@PathVariable("userId") Integer userId) {
+        String body = authService.verifyWithEmail(userId);
         return ResponseEntity.ok().body(body);
     }
-    @PostMapping("/verification")
-    public ResponseEntity<String> verification(@RequestBody RegistrationByPhoneDTO code) {
-        String body = authService.authorizationVerificationPhone(code);
+    @PostMapping("/verifyWithSms")
+    public ResponseEntity<String> verifyWithSms(@RequestBody SmsHistoryDTO code) {
+        String body = authService.verifyWithSms(code);
         return ResponseEntity.ok().body(body);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginDTO dto) {
-        String body = authService.login(dto);
+    @GetMapping("/registration/resendEmail/{email}")
+    public ResponseEntity<String> resendEmail(@PathVariable String email) {
+        String body = authService.resendEmail(email);
         return ResponseEntity.ok().body(body);
+    }
+    @GetMapping("/registration/resendSms/{phone}")
+    public ResponseEntity<String> resendSms(@PathVariable String phone) {
+        String body = authService.resendSms(phone);
+        return ResponseEntity.ok().body(body);
+    }
+
+
+    @PostMapping("/loginWithEmail")
+    public ResponseEntity<ProfileDTO> loginWithEmail(@Valid @RequestBody LoginDTO dto) {
+        ProfileDTO response = authService.loginWithEmail(dto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/loginWithPhone")
+    public ResponseEntity<ProfileDTO> loginWithPhone(@Valid @RequestBody LoginByPhoneDTO dto) {
+        ProfileDTO response = authService.loginWithPhone(dto);
+        return ResponseEntity.ok().body(response);
     }
 
 }

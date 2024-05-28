@@ -1,5 +1,5 @@
 ### 1. Create region
-POST localhost:8080/region/create
+POST localhost:8081/region/create
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### 2. Update region
-PUT localhost:8080/region/update/16
+PUT localhost:8081/region/update/16
 Content-Type: application/json
 
 {
@@ -23,12 +23,12 @@ Content-Type: application/json
 
 
 ### 3. Delete region
-DELETE localhost:8080/region/delete/13
+DELETE localhost:8081/region/delete/13
 
 ### 4. Get all
-GET localhost:8080/region/all
+GET localhost:8081/region/all
 
 ### Get all by lang
-GET localhost:8080/region/lang
+GET localhost:8081/region/lang
 Accept-Language: EN
 

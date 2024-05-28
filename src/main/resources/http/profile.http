@@ -1,5 +1,5 @@
 ### create profile
-POST localhost:8080/profile/create
+POST localhost:8081/profile/create
 Content-Type: application/json
 
 {
@@ -11,10 +11,10 @@ Content-Type: application/json
 }
 
 ### get all with pagination
-GET localhost:8080/profile/all?pageNumber=1&pageSize=11
+GET localhost:8081/profile/all?pageNumber=1&pageSize=11
 
 ### update
-PUT localhost:8080/profile/update/6
+PUT localhost:8081/profile/update/6
 Content-Type: application/json
 
 {
@@ -23,10 +23,10 @@ Content-Type: application/json
 }
 
 ### delete by id
-DELETE localhost:8080/profile/delete/1
+DELETE localhost:8081/profile/delete/1
 
 ### filter profile
-POST localhost:8080/profile/filter?pageNumber=1&pageSize=5
+POST localhost:8081/profile/filter?pageNumber=1&pageSize=5
 Content-Type: application/json
 
 {

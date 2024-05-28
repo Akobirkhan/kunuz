@@ -1,5 +1,5 @@
 ### 1. Create category
-POST localhost:8080/category/create
+POST localhost:8081/category/create
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### 2. Update category
-PUT localhost:8080/category/update/4
+PUT localhost:8081/category/update/4
 Content-Type: application/json
 
 {
@@ -23,12 +23,12 @@ Content-Type: application/json
 
 
 ### 3. Delete category
-DELETE localhost:8080/category/delete/13
+DELETE localhost:8081/category/delete/13
 
 ### 4. Get all
-GET localhost:8080/category/all
+GET localhost:8081/category/all
 
 ### 5. Get All By language
-GET localhost:8080/category/lang
+GET localhost:8081/category/lang
 Accept-Language: RU
 
