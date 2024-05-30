@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/profile")
 @RestController
 public class ProfileController {
@@ -28,9 +30,11 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/all_with_pagination")
+    @GetMapping(value = "/all_with_pagination") //Admin
     ResponseEntity<Page<ProfileDTO>> getAll(@RequestParam Integer pageNumber,
-                                            @RequestParam Integer pageSize) {
+                                            @RequestParam Integer pageSize,
+                                            @RequestHeader("Authorization") String token) {
+        SecurityUtil.getJwtDTO(token, List.of(ProfileRole.ROLE_ADMIN,ProfileRole.ROLE_MODERATOR,ProfileRole.ROLE_PUBLISH));
         Page<ProfileDTO> response = profileService.getAll(pageNumber - 1, pageSize);
         return ResponseEntity.ok(response);
 

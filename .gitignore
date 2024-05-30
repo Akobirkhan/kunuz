@@ -12,7 +12,8 @@ src/main/resources/talablar.txt
 .settings
 .springBeans
 .sts4-cache
-
+# Ignore talablar directory
+/talablar/
 ### IntelliJ IDEA ###
 .idea
 *.iws
