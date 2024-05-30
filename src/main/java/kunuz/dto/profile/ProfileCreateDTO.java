@@ -13,15 +13,12 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileCreateDTO {
-    @NotBlank(message = "name reqiured")
     private String name;
-    @NotBlank(message = "surname required")
     private String surname;
-    @Email(message = "invalid email")
     private String email;
-    @NotBlank(message = "phone required")
-    @Size(min = 12 , max = 12,message = "phone must be 12 numbers")
     private String phone;
-    @Size(min = 5, message = "password more than 5")
     private String password;
+    private ProfileStatus status;
+    private ProfileRole role;
+
 }

@@ -11,11 +11,15 @@ Content-Type: application/json
 }
 
 ### get all with pagination
-GET localhost:8081/profile/all?pageNumber=1&pageSize=11
+GET localhost:8081/profile/all_with_pagination?pageNumber=1&pageSize=11
 
-### update
-PUT localhost:8081/profile/update/6
+### update for Admin
+PUT localhost:8081/profile/update/1
+
+### update for user
+PUT localhost:8081/profile/current
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MTAyMzIsImlkIjo1Mywicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTcxNjk5NjYzMiwianRpIjoiS3VuVXpUZXN0In0.MA5rRNxUS0-g29ju7GXNhOfJ_KQf0UJB2yxYPrOFvq8BaN8Ylv1a2-DYiPQGF6rre26Z1pcP128q31ccCRIrTg
 
 {
   "name": "Alijons",

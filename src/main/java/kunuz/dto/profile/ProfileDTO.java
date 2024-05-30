@@ -24,5 +24,6 @@ public class ProfileDTO {
     private LocalDateTime createdDate;
     private Integer photoId;
 
+    private String jwt;
 
 }

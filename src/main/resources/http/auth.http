@@ -8,6 +8,7 @@ Content-Type: application/json
   "phone": "998979213344",
   "password": "12345"
 }
+
 ### Registration with email
 POST localhost:8081/auth/registrWithEmail
 Content-Type: application/json
@@ -49,7 +50,15 @@ POST localhost:8081/auth/loginWithPhone
 Content-Type: application/json
 
 {
-
   "phone": "998940460720",
   "password": "12345"
+}
+
+### login with email
+POST localhost:8081/auth/login_email
+Content-Type: application/json
+
+{
+    "email": "akobirqodiriy@gmail.com",
+    "password": "12345"
 }

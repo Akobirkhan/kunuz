@@ -2,10 +2,7 @@ package kunuz.controller;
 
 import jakarta.validation.Valid;
 import kunuz.dto.SmsHistoryDTO;
-import kunuz.dto.auth.LoginByPhoneDTO;
-import kunuz.dto.auth.LoginDTO;
-import kunuz.dto.auth.RegistrationByEmailDTO;
-import kunuz.dto.auth.RegistrationByPhoneDTO;
+import kunuz.dto.auth.*;
 import kunuz.dto.profile.ProfileDTO;
 import kunuz.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +59,13 @@ public class AuthController {
     @PostMapping("/loginWithPhone")
     public ResponseEntity<ProfileDTO> loginWithPhone(@Valid @RequestBody LoginByPhoneDTO dto) {
         ProfileDTO response = authService.loginWithPhone(dto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    // Login with email
+    @PostMapping("/login_email")
+    public ResponseEntity<ProfileDTO> loginWithEmail(@RequestBody AuthDTO authDTO) {
+        ProfileDTO response = authService.loginWithEmail(authDTO);
         return ResponseEntity.ok().body(response);
     }
 
