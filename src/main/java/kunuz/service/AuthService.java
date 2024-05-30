@@ -1,10 +1,7 @@
 package kunuz.service;
 
 import kunuz.dto.SmsHistoryDTO;
-import kunuz.dto.auth.LoginByPhoneDTO;
-import kunuz.dto.auth.LoginDTO;
-import kunuz.dto.auth.RegistrationByEmailDTO;
-import kunuz.dto.auth.RegistrationByPhoneDTO;
+import kunuz.dto.auth.*;
 import kunuz.dto.profile.ProfileDTO;
 import kunuz.entity.ProfileEntity;
 import kunuz.entity.SmsHistoryEntity;
@@ -13,6 +10,7 @@ import kunuz.enums.ProfileStatus;
 import kunuz.exp.AppBadException;
 import kunuz.repository.ProfileRepository;
 import kunuz.repository.SmsHistoryRepository;
+import kunuz.util.JWTUtil;
 import kunuz.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -160,6 +158,30 @@ public class AuthService {
         response.setPhone(entity.getPhone());
         response.setCreatedDate(entity.getCreatedDate());
         return response;
+    }
+
+    public ProfileDTO loginWithEmail(AuthDTO authDTO) {
+        Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(authDTO.getEmail());
+        if (optional.isEmpty()) {
+            throw new AppBadException("User not found");
+        }
+        ProfileEntity entity = optional.get();
+        if (!entity.getPassword().equals(MD5Util.getMd5(authDTO.getPassword()))) {
+            throw new AppBadException("Wrong password");
+        }
+        if (entity.getStatus() != ProfileStatus.ACTIVE) {
+            throw new AppBadException("User is not active");
+        }
+        ProfileDTO dto = new ProfileDTO();
+//        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setSurname(entity.getSurname());
+        dto.setEmail(entity.getEmail());
+        dto.setPhone(entity.getPhone());
+        dto.setRole(entity.getRole());
+//        dto.setStatus(entity.getStatus());
+        dto.setJwt(JWTUtil.encode(entity.getId(), entity.getRole()));
+        return dto;
     }
 
     public ProfileDTO loginWithPhone(LoginByPhoneDTO dto) {

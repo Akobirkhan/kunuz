@@ -1,9 +1,6 @@
 package kunuz.service;
 
-import kunuz.dto.profile.FilterResponseDTO;
-import kunuz.dto.profile.ProfileCreateDTO;
-import kunuz.dto.profile.ProfileDTO;
-import kunuz.dto.profile.ProfileFilterDTO;
+import kunuz.dto.profile.*;
 import kunuz.entity.ProfileEntity;
 import kunuz.enums.ProfileRole;
 import kunuz.enums.ProfileStatus;
@@ -39,31 +36,27 @@ public class ProfileService {
         return new PageImpl<ProfileDTO>(list, pageable, totalElements);
     }
 
-    public ProfileDTO update(Integer id, ProfileCreateDTO dto) {
+    public Boolean update(Integer id, ProfileCreateDTO profile) {
+        ProfileEntity profileEntity = get(id);
+        profileEntity.setName(profile.getName());
+        profileEntity.setSurname(profile.getSurname());
+        profileEntity.setEmail(profile.getEmail());
+        profileEntity.setPhone(profile.getPhone());
+        profileEntity.setPassword(profile.getPassword());
+        profileEntity.setStatus(profile.getStatus());
+        profileEntity.setRole(profile.getRole());
+        profileRepository.save(profileEntity);
+        return true;
+    }
+
+    public ProfileDTO updateUser(Integer id, ProfileUpdateDTO dto) {
         ProfileEntity entity = get(id);
-
-        if (dto.getName()!=null){
-            entity.setName(dto.getName());
-        }
-        if (dto.getSurname()!=null){
-            entity.setSurname(dto.getSurname());
-        }
-
-        if (dto.getEmail()!=null){
-            entity.setEmail(dto.getEmail());
-        }
-
-        if (dto.getPassword()!=null){
-            entity.setPassword(dto.getPassword());
-        }
-
-        if (dto.getPhone()!=null){
-            entity.setPhone(dto.getPhone());
-        }
-
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
         ProfileEntity saved = profileRepository.save(entity);
         return toDTO(saved);
     }
+
     public Boolean delete(Integer id) {
         ProfileEntity entity = get(id);
         profileRepository.delete(entity);
@@ -76,11 +69,11 @@ public class ProfileService {
                 .map(this::toDTO)
                 .toList();
         Long totalCount = filterResponse.getTotalCount();
-        return new PageImpl<>(dtoList,PageRequest.of(pageNumber,pageSize),totalCount);
+        return new PageImpl<>(dtoList, PageRequest.of(pageNumber, pageSize), totalCount);
     }
 
-    public ProfileEntity get(Integer id){
-        return profileRepository.findById(id).orElseThrow(()-> new AppBadException("profile not found"));
+    public ProfileEntity get(Integer id) {
+        return profileRepository.findById(id).orElseThrow(() -> new AppBadException("profile not found"));
     }
 
     private ProfileEntity toEntity(ProfileCreateDTO dto) {
