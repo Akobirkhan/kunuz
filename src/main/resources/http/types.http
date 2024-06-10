@@ -1,0 +1,37 @@
+### 1. Create type
+POST localhost:8081/types/adm/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+
+{
+  "nameUz": "O'zbekiston",
+  "nameRu": "Узбекистан",
+  "nameEn": "Uzbekistan",
+  "orderNumber": 7
+}
+
+### 2. Update type
+PUT localhost:8081/types/adm/update/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+
+{
+  "nameUz": "Fan-Texnika3",
+  "nameRu": "Технологии3",
+  "nameEn": "Tech3",
+  "orderNumber": 1,
+  "visible": true
+}
+
+### 3. Delete type
+DELETE localhost:8081/types/adm/delete/10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+
+### 4. Pagination
+GET localhost:8081/types/adm/pagination?page=2&size=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+
+### 5. Get All By language
+GET localhost:8081/types/lang
+Accept-Language: EN
+

@@ -51,7 +51,7 @@ public class AuthController {
 
 
     @PostMapping("/loginWithEmail")
-    public ResponseEntity<ProfileDTO> loginWithEmail(@Valid @RequestBody LoginDTO dto) {
+    public ResponseEntity<ProfileDTO> loginWithEmail(@Valid @RequestBody LoginByEmailDTO dto) {
         ProfileDTO response = authService.loginWithEmail(dto);
         return ResponseEntity.ok().body(response);
     }

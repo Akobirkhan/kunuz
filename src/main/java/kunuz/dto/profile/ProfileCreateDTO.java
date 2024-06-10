@@ -1,9 +1,6 @@
 package kunuz.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import kunuz.enums.ProfileRole;
 import kunuz.enums.ProfileStatus;
 import lombok.Getter;
@@ -20,5 +17,4 @@ public class ProfileCreateDTO {
     private String password;
     private ProfileStatus status;
     private ProfileRole role;
-
 }

@@ -21,7 +21,7 @@ public class SmsSenderService {
 
     public String sendSms(String phone) {
         String code = RandomUtil.getRandomSmsCode();
-        String message = "YouGo ilovasiga ro'yxatdan o'tishning tasdiqlash kodi: " + code;
+        String message = "Bu Eskiz dan test" + code;
         send(phone, message);
         return null;
     }
@@ -36,7 +36,7 @@ public class SmsSenderService {
 
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("mobile_phone", prPhone)
-                .addFormDataPart("message", "Bu Eskiz dan test 9090")
+                .addFormDataPart("message", "Bu Eskiz dan test")
                 .addFormDataPart("from", "4546")
                 .build();
 

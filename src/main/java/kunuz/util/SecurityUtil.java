@@ -1,8 +1,12 @@
 package kunuz.util;
 
+import kunuz.config.CustomUserDetail;
 import kunuz.dto.auth.JwtDTO;
+import kunuz.entity.ProfileEntity;
 import kunuz.enums.ProfileRole;
 import kunuz.exp.AppForbiddenException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -30,10 +34,17 @@ public class SecurityUtil {
         }
         throw new AppForbiddenException("Method not allowed");
 
-//        Optional<ProfileRole> any = requiredRole.stream().filter(role -> role == dto.getRole()).findAny();
-//        if (any.isEmpty()){
-//            throw new AppForbiddenException("Method not allowed");
-//        }
-//        return dto;
+    }
+
+    public static Integer getProfileId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetail user = (CustomUserDetail) authentication.getPrincipal();
+        return user.getProfile().getId();
+    }
+
+    public static ProfileEntity getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetail user = (CustomUserDetail) authentication.getPrincipal();
+        return user.getProfile();
     }
 }

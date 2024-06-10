@@ -1,11 +1,11 @@
 package kunuz.service;
 
-import kunuz.dto.type.TypeCreateDTO;
-import kunuz.dto.type.TypeDTO;
-import kunuz.entity.TypeEntity;
+import kunuz.dto.types.TypesCreateDTO;
+import kunuz.dto.types.TypesDTO;
+import kunuz.entity.TypesEntity;
 import kunuz.enums.LanguageEnum;
 import kunuz.exp.AppBadException;
-import kunuz.repository.TypeRepository;
+import kunuz.repository.TypesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -13,50 +13,51 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 @Service
-public class TypeService {
+public class TypesService {
     @Autowired
-    private TypeRepository typeRepository;
-    public TypeDTO create(TypeCreateDTO dto) {
-        TypeEntity entity = new TypeEntity();
+    private TypesRepository typesRepository;
+    public TypesDTO create(TypesCreateDTO dto) {
+        TypesEntity entity = new TypesEntity();
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
 
-        typeRepository.save(entity);
+        typesRepository.save(entity);
         return toDTO(entity);
     }
 
-    public Boolean update(Integer id, TypeCreateDTO dto) {
-        TypeEntity entity = get(id);
+    public Boolean update(Integer id, TypesCreateDTO dto) {
+        TypesEntity entity = get(id);
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setOrderNumber(dto.getOrderNumber());
-        typeRepository.save(entity);
+        entity.setVisible(dto.getVisible());
+        typesRepository.save(entity);
         return true;
 
     }
 
-    public TypeEntity get(Integer id) {
-        return typeRepository.findById(id).orElseThrow(()
+    public TypesEntity get(Integer id) {
+        return typesRepository.findById(id).orElseThrow(()
                 -> new AppBadException("Type not found"));
     }
 
     public Boolean delete(Integer id) {
-        TypeEntity entity = get(id);
-        typeRepository.delete(entity);
+        TypesEntity entity = get(id);
+        typesRepository.delete(entity);
         return true;
     }
 
-    public PageImpl<TypeDTO> pagination(int page, int size) {
+    public PageImpl<TypesDTO> pagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by("orderNumber"));
-        Page<TypeEntity> pageObj = typeRepository.findAll(pageable);
+        Page<TypesEntity> pageObj = typesRepository.findAll(pageable);
 
-        List<TypeDTO> dtoList = new LinkedList<>();
-        for (TypeEntity entity: pageObj.getContent()){
-            TypeDTO dto = new TypeDTO();
+        List<TypesDTO> dtoList = new LinkedList<>();
+        for (TypesEntity entity: pageObj.getContent()){
+            TypesDTO dto = new TypesDTO();
             dto.setId(entity.getId());
             dto.setNameUz(entity.getNameUz());
             dto.setNameRu(entity.getNameRu());
@@ -72,11 +73,11 @@ public class TypeService {
     }
 
 
-    public List<TypeDTO> getAllByLang(LanguageEnum lang) {
-        Iterable<TypeEntity> iterable = typeRepository.findAll();
-        List<TypeDTO> dtoList = new LinkedList<>();
-        for (TypeEntity entity: iterable){
-            TypeDTO dto = new TypeDTO();
+    public List<TypesDTO> getAllByLang(LanguageEnum lang) {
+        Iterable<TypesEntity> iterable = typesRepository.findAll();
+        List<TypesDTO> dtoList = new LinkedList<>();
+        for (TypesEntity entity: iterable){
+            TypesDTO dto = new TypesDTO();
             dto.setId(entity.getId());
             switch (lang) {
                 case EN -> dto.setName(entity.getNameEn());
@@ -88,8 +89,8 @@ public class TypeService {
         return dtoList;
     }
 
-    public TypeDTO toDTO(TypeEntity entity){
-        TypeDTO dto = new TypeDTO();
+    public TypesDTO toDTO(TypesEntity entity){
+        TypesDTO dto = new TypesDTO();
         dto.setId(entity.getId());
         dto.setNameUz(entity.getNameUz());
         dto.setNameEn(entity.getNameEn());

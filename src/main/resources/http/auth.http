@@ -3,9 +3,9 @@ POST localhost:8081/auth/registrWithPhone
 Content-Type: application/json
 
 {
-  "name": "Akobir",
-  "surname": "Qodirov",
-  "phone": "998979213344",
+  "name": "Javohir",
+  "surname": "Qodiriy",
+  "phone": "998770031551",
   "password": "12345"
 }
 
@@ -14,25 +14,25 @@ POST localhost:8081/auth/registrWithEmail
 Content-Type: application/json
 
 {
-  "name": "Akobir",
-  "surname": "Qodirov",
+  "name": "Ali",
+  "surname": "Aliyev",
   "email": "akobirqodiriy@gmail.com",
-  "password": "12345"
+  "password": "123456789"
 }
 
 ### resend sms
 GET localhost:8081/auth/registration/resendSms/998979213344
 
 ### resend email
-GET localhost:8081/auth/registration/resend/akobirqodiriy@gmail.com
+GET localhost:8081/auth/registration/resendEmail/qodirovako1@gmail.com
 
 ### verification with phone
 POST localhost:8081/auth/verificationWithSms
 Content-Type: application/json
 
 {
-  "phone": "998946486808",
-  "message": "72855"
+  "phone": "998979213344",
+  "message": "Bu Eskiz dan test"
 }
 
 
@@ -59,6 +59,6 @@ POST localhost:8081/auth/login_email
 Content-Type: application/json
 
 {
-    "email": "akobirqodiriy@gmail.com",
-    "password": "12345"
+  "email": "test@gmail.com",
+  "password": "010203"
 }

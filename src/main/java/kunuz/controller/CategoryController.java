@@ -15,27 +15,27 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/create")
+    @PostMapping("/adm/create")
     public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryCreateDTO dto) {
         CategoryDTO response = categoryService.create(dto);
         return ResponseEntity.ok().body(response);
 
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/adm/update/{id}")
     public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
                                             @Valid @RequestBody CategoryCreateDTO dto) {
         Boolean result = categoryService.update(id, dto);
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/adm/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
         Boolean result = categoryService.delete(id);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/adm/all")
     public List<CategoryDTO> getAll() {
         return categoryService.getAll();
     }

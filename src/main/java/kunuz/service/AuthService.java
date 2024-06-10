@@ -49,7 +49,7 @@ public class AuthService {
         entity.setStatus(ProfileStatus.REGISTRATION);
 
         profileRepository.save(entity);
-        emailSenderService.sendEmail(entity.getId(),entity.getEmail());
+        emailSenderService.sendEmail(String.valueOf(entity.getId()),entity.getEmail());
         return "To complete your registration please verify your email.";
     }
 
@@ -82,7 +82,7 @@ public class AuthService {
         if (!entity.getVisible() || !entity.getStatus().equals(ProfileStatus.REGISTRATION)) {
             throw new AppBadException("Registration not completed");
         }
-        profileRepository.updateStatus(userId, ProfileStatus.ACTIVE);
+        profileRepository.updateStatus(String.valueOf(userId), ProfileStatus.ACTIVE);
         return "registration finished successfully ";
     }
 
@@ -106,7 +106,7 @@ public class AuthService {
             throw new AppBadException("wrong password");
         }
 
-        profileRepository.updateStatus(profileEntity.getId(), ProfileStatus.ACTIVE);
+        profileRepository.updateStatus(String.valueOf(profileEntity.getId()), ProfileStatus.ACTIVE);
         return "registration finished successfully ";
     }
 
@@ -121,7 +121,7 @@ public class AuthService {
         }
 
         emailHistoryService.checkEmailLimit(email);
-        emailSenderService.sendEmail(entity.getId(),email);
+        emailSenderService.sendEmail(String.valueOf(entity.getId()),email);
         return "To complete your registration please verify your email.";
     }
 
@@ -139,7 +139,7 @@ public class AuthService {
         return "To complete your registration please verify your email.";
     }
 
-    public ProfileDTO loginWithEmail(LoginDTO dto) {
+    public ProfileDTO loginWithEmail(LoginByEmailDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmailAndVisibleTrue(dto.getEmail());
         if (optional.isEmpty()) {
             throw new AppBadException("User not found");
@@ -180,7 +180,7 @@ public class AuthService {
         dto.setPhone(entity.getPhone());
         dto.setRole(entity.getRole());
 //        dto.setStatus(entity.getStatus());
-        dto.setJwt(JWTUtil.encode(entity.getId(), entity.getRole()));
+        dto.setJwt(JWTUtil.encode(entity.getId(), entity.getRole(), entity.getEmail()));
         return dto;
     }
 

@@ -22,8 +22,12 @@ public class ProfileService {
     private ProfileCustomRepository customRepository;
 
     public ProfileDTO create(ProfileCreateDTO dto) {
-        ProfileEntity save = profileRepository.save(toEntity(dto));
-        return toDTO(save);
+        if (dto.getRole().equals(ProfileRole.ROLE_MODERATOR) ||
+                dto.getRole().equals(ProfileRole.ROLE_PUBLISHER)){
+                ProfileEntity save = profileRepository.save(toEntity(dto));
+            return toDTO(save);
+        }
+        throw new AppBadException("Profile role error");
     }
 
     public Page<ProfileDTO> getAll(int pageNumber, Integer pageSize) {
@@ -37,15 +41,15 @@ public class ProfileService {
     }
 
     public Boolean update(Integer id, ProfileCreateDTO profile) {
-        ProfileEntity profileEntity = get(id);
-        profileEntity.setName(profile.getName());
-        profileEntity.setSurname(profile.getSurname());
-        profileEntity.setEmail(profile.getEmail());
-        profileEntity.setPhone(profile.getPhone());
-        profileEntity.setPassword(profile.getPassword());
-        profileEntity.setStatus(profile.getStatus());
-        profileEntity.setRole(profile.getRole());
-        profileRepository.save(profileEntity);
+        ProfileEntity entity = get(id);
+        entity.setName(profile.getName()!=null? profile.getName() : entity.getName());
+        entity.setSurname(profile.getSurname()!=null?profile.getSurname(): entity.getSurname());
+        entity.setEmail(profile.getEmail()!=null?profile.getEmail(): entity.getEmail());
+        entity.setPhone(profile.getPhone()!=null?profile.getPhone(): entity.getPhone());
+        entity.setPassword(profile.getPassword()!=null?(MD5Util.getMd5(profile.getPassword())): entity.getPassword());
+        entity.setStatus(profile.getStatus()!=null?profile.getStatus(): entity.getStatus());
+        entity.setRole(profile.getRole()!=null?profile.getRole(): entity.getRole());
+        profileRepository.save(entity);
         return true;
     }
 
@@ -83,7 +87,7 @@ public class ProfileService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhone(dto.getPhone());
-        entity.setRole(ProfileRole.ROLE_USER);
+        entity.setRole(dto.getRole());
         entity.setStatus(ProfileStatus.ACTIVE);
         return entity;
     }

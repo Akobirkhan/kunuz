@@ -5,6 +5,7 @@ import kunuz.enums.ProfileRole;
 import kunuz.enums.ProfileStatus;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +24,7 @@ public class ProfileEntity {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "phone")

@@ -1,5 +1,5 @@
 ### get by email
-GET http://localhost:8081/email/ByEmail?email=takhir.ismailoff@gmail.com
+GET http://localhost:8081/email/ByEmail?email=akobirqodiriy@gmail.com
 
 ### get by given date
 GET http://localhost:8081/email/givenDate?date=2024-05-23

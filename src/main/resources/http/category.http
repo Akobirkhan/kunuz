@@ -1,32 +1,36 @@
 ### 1. Create category
-POST localhost:8081/category/create
+POST localhost:8081/category/adm/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 {
-  "nameUz": "aewf",
-  "nameRu": "wCEQAWC",
-  "nameEn": "ertgscs",
-  "orderNumber": 4
+  "nameUz": "aaaUz",
+  "nameRu": "aaaRU",
+  "nameEn": "aaaEn",
+  "orderNumber": 5
 }
 
 ### 2. Update category
-PUT localhost:8081/category/update/4
+PUT localhost:8081/category/adm/update/4
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 {
-  "nameUz": "wcg4fe",
-  "nameRu": "werfw",
-  "nameEn": "thge5r",
+  "nameUz": "bbbUz",
+  "nameRu": "bbbRu",
+  "nameEn": "bbbEn",
   "visible": true,
   "orderNumber": 4
 }
 
 
 ### 3. Delete category
-DELETE localhost:8081/category/delete/13
+DELETE localhost:8081/category/adm/delete/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 ### 4. Get all
-GET localhost:8081/category/all
+GET localhost:8081/category/adm/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 ### 5. Get All By language
 GET localhost:8081/category/lang

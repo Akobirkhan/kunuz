@@ -9,11 +9,13 @@ import lombok.Setter;
 @Setter
 public class JwtDTO {
     private Integer id;
+    private String username;
     private ProfileRole role;
 
-    public JwtDTO(Integer id, ProfileRole role) {
+    public JwtDTO(Integer id, String userName, ProfileRole role) {
         this.id = id;
         this.role = role;
+        this.username = userName;
     }
 
     public JwtDTO(Integer id) {

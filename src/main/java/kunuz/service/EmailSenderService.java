@@ -19,7 +19,7 @@ public class EmailSenderService {
     @Value("${spring.mail.username}")
     String fromMailAddress;
 
-    public void sendEmail(Integer profileId, String email){
+    public void sendEmail(String profileId, String email){
         String url = "http://localhost:8081/auth/verifyWithEmail/" + profileId;
         String formatText = "<style>\n" +
                 "    a:link, a:visited {\n" +

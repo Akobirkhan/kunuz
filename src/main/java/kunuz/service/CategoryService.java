@@ -18,7 +18,8 @@ import java.util.List;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-    public CategoryDTO create(CategoryCreateDTO dto){
+
+    public CategoryDTO create(CategoryCreateDTO dto) {
         CategoryEntity entity = new CategoryEntity();
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
@@ -39,10 +40,12 @@ public class CategoryService {
 
         return true;
     }
+
     public CategoryEntity get(Integer id) {
         return categoryRepository.findById(id).orElseThrow(()
                 -> new AppBadException("Category not found"));
     }
+
     public Boolean delete(Integer id) {
         CategoryEntity entity = get(id);
         categoryRepository.delete(entity);
@@ -52,7 +55,7 @@ public class CategoryService {
     public List<CategoryDTO> getAll() {
         Iterable<CategoryEntity> iterable = categoryRepository.findAll();
         List<CategoryDTO> dtoList = new LinkedList<>();
-        for (CategoryEntity entity: iterable){
+        for (CategoryEntity entity : iterable) {
             dtoList.add(toDto(entity));
         }
         return dtoList;
@@ -61,7 +64,7 @@ public class CategoryService {
     public List<CategoryDTO> getAllByLang(LanguageEnum lang) {
         Iterable<CategoryEntity> iterable = categoryRepository.findAllByVisibleTrueOrderByOrderNumberDesc();
         List<CategoryDTO> dtoList = new LinkedList<>();
-        for (CategoryEntity entity: iterable){
+        for (CategoryEntity entity : iterable) {
             CategoryDTO dto = new CategoryDTO();
             dto.setId(entity.getId());
 
@@ -75,7 +78,7 @@ public class CategoryService {
         return dtoList;
     }
 
-    public CategoryDTO toDto(CategoryEntity entity){
+    public CategoryDTO toDto(CategoryEntity entity) {
         CategoryDTO dto = new CategoryDTO();
         dto.setId(entity.getId());
         dto.setNameUz(entity.getNameUz());
@@ -98,9 +101,4 @@ public class CategoryService {
         }
         return dtoList;
     }
-
-
-
-
-
 }

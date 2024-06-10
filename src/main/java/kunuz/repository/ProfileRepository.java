@@ -20,6 +20,6 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
     @Transactional
     @Modifying
     @Query("update ProfileEntity set status =?2 where id =?1")
-    int updateStatus(Integer profileId, ProfileStatus status);
+    int updateStatus(String profileId, ProfileStatus status);
 
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class LoginDTO {
+public class LoginByEmailDTO {
     @Email(message = "invalid email")
     @NotBlank(message = "email required")
     private String email;

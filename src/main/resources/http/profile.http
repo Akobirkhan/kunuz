@@ -1,20 +1,30 @@
 ### create profile
-POST localhost:8081/profile/create
+POST localhost:8081/profile/adm/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 {
-  "name": "Vali",
-  "surname": "Valiyev",
-  "email": "kunuz2@gmail.com",
-  "phone": "998991233001",
-  "password": "112244"
+  "name": "Test",
+  "surname": "Testov",
+  "email": "test@gmail.com",
+  "phone": "998991200000",
+  "role" : "ROLE_PUBLISH",
+  "status": "ACTIVE",
+  "password": "010203"
 }
 
-### get all with pagination
-GET localhost:8081/profile/all_with_pagination?pageNumber=1&pageSize=11
-
 ### update for Admin
-PUT localhost:8081/profile/update/1
+PUT localhost:8081/profile/adm/update/8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4NDcyOTYsImlkIjo2LCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc5MzM2OTYsImp0aSI6Ikt1blV6VGVzdCJ9.sEThbTSvv6eWxkMd9UBxY2t52wPm68FxVefI63hFwV4s9_y4GRpy6jgh1DmyMr3c2WLV_ryn4yMTJAql2o41gQ
+
+{
+  "name": "Eshmat",
+  "surname": "Eshmatov",
+  "email": "eshmat@gmail.com",
+  "phone": "998991233001",
+  "password": "010101"
+}
 
 ### update for user
 PUT localhost:8081/profile/current
@@ -26,8 +36,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MTAyMzIsImlkIjo1Mywic
   "surname": "Valiyev"
 }
 
+### get all with pagination
+GET localhost:8081/profile/all_with_pagination?pageNumber=1&pageSize=11
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MTAyMzIsImlkIjo1Mywicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTcxNjk5NjYzMiwianRpIjoiS3VuVXpUZXN0In0.MA5rRNxUS0-g29ju7GXNhOfJ_KQf0UJB2yxYPrOFvq8BaN8Ylv1a2-DYiPQGF6rre26Z1pcP128q31ccCRIrTg
+
+
+
 ### delete by id
-DELETE localhost:8081/profile/delete/1
+DELETE localhost:8081/profile/adm/delete/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTY5MTAyMzIsImlkIjo1Mywicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTcxNjk5NjYzMiwianRpIjoiS3VuVXpUZXN0In0.MA5rRNxUS0-g29ju7GXNhOfJ_KQf0UJB2yxYPrOFvq8BaN8Ylv1a2-DYiPQGF6rre26Z1pcP128q31ccCRIrTg
 
 ### filter profile
 POST localhost:8081/profile/filter?pageNumber=1&pageSize=5

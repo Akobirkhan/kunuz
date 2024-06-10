@@ -10,7 +10,6 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegistrationByPhoneDTO {
     @NotBlank
-    @NotBlank
     private String name;
     @NotBlank
     private String surname;

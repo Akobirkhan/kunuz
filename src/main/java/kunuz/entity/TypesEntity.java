@@ -3,14 +3,14 @@ package kunuz.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "type")
 @Getter
 @Setter
-public class TypeEntity {
+@Entity
+@Table(name = "types")
+public class TypesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,5 +25,5 @@ public class TypeEntity {
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate=LocalDateTime.now();
 }

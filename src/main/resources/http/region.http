@@ -1,34 +1,40 @@
 ### 1. Create region
-POST localhost:8081/region/create
+POST localhost:8081/region/adm/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 {
-  "nameUz": "Eshmat",
-  "nameRu": "Eshmatov",
-  "nameEn": "Eshmatovich",
-  "orderNumber": 15
+  "nameUz": "Namangan",
+  "nameRu": "Наманган",
+  "nameEn": "Namangan",
+  "orderNumber": 4
 }
 
 ### 2. Update region
-PUT localhost:8081/region/update/16
+PUT localhost:8081/region/adm/update/5
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 {
-  "nameUz": "Eshmat",
-  "nameRu": "Eshmatov",
-  "nameEn": "Eshmatovich",
-  "visible": false,
-  "orderNumber": 15
+  "nameUz": "Namangan",
+  "nameRu": "Наманган",
+  "nameEn": "Namangan",
+  "visible": true,
+  "orderNumber": 5
 }
 
 
 ### 3. Delete region
-DELETE localhost:8081/region/delete/13
+DELETE localhost:8081/region/adm/delete/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+
+
 
 ### 4. Get all
-GET localhost:8081/region/all
+GET localhost:8081/region/adm/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
 
 ### Get all by lang
 GET localhost:8081/region/lang
-Accept-Language: EN
+Accept-Language: UZ
 

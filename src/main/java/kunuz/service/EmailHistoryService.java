@@ -60,7 +60,7 @@ public class EmailHistoryService {
 
     private EmailHistoryDTO toDTO(EmailHistoryEntity entity) {
         EmailHistoryDTO dto = new EmailHistoryDTO();
-        dto.setId(entity.getId());
+        dto.setId(Integer.valueOf(entity.getId()));
         dto.setEmail(entity.getEmail());
         dto.setMessage(entity.getMessage());
         dto.setCreatedDate(entity.getCreatedDate());

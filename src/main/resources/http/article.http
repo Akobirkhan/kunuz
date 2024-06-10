@@ -1,0 +1,50 @@
+### Create article
+POST localhost:8081/article/moderator
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4MzU2MDQsImlkIjo4LCJyb2xlIjoiUk9MRV9NT0RFUkFUT1IiLCJ1c2VybmFtZSI6InZhbGlAZ21haWwuY29tIiwiZXhwIjoxNzE3OTIyMDA0LCJqdGkiOiJLdW5VelRlc3QifQ.08CBCueLA60ztir9ELICN3a5IDlnrvWvFJn4rn3oP0yWKRrLucBQCKRVxGSj2wJ8oYqsRvwJwpzN1u_dSRjs_Q
+
+{
+  "title": "Sport",
+  "description": "EURO24",
+  "content": "Kutib oling EURO2024 boshlanmoqda ",
+  "imageId": 1,
+  "regionId": 2,
+  "categoryId": 3,
+  "typesList": [
+    2,
+    3
+  ]
+}
+
+### Update article
+PUT localhost:8081/article/moderator/1
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4MzU2MDQsImlkIjo4LCJyb2xlIjoiUk9MRV9NT0RFUkFUT1IiLCJ1c2VybmFtZSI6InZhbGlAZ21haWwuY29tIiwiZXhwIjoxNzE3OTIyMDA0LCJqdGkiOiJLdW5VelRlc3QifQ.08CBCueLA60ztir9ELICN3a5IDlnrvWvFJn4rn3oP0yWKRrLucBQCKRVxGSj2wJ8oYqsRvwJwpzN1u_dSRjs_Q
+
+{
+  "title": "title2",
+  "description": "description",
+  "content": "content",
+  "imageId": 1,
+  "regionId": 1,
+  "categoryId": 1,
+  "typesList": [
+    3,
+    4,
+    5
+  ]
+}
+
+### Delete article
+DELETE localhost:8081/article/moderator/44d51833-b004-4be0-b7ae-f7dc9c3914df
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4MzU2MDQsImlkIjo4LCJyb2xlIjoiUk9MRV9NT0RFUkFUT1IiLCJ1c2VybmFtZSI6InZhbGlAZ21haWwuY29tIiwiZXhwIjoxNzE3OTIyMDA0LCJqdGkiOiJLdW5VelRlc3QifQ.08CBCueLA60ztir9ELICN3a5IDlnrvWvFJn4rn3oP0yWKRrLucBQCKRVxGSj2wJ8oYqsRvwJwpzN1u_dSRjs_Q
+
+### Change stutus article
+PUT localhost:8081/article/publisher/7fea8358-77fc-4053-a897-b428af9790a3
+Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4NDgyMDQsImlkIjo5LCJyb2xlIjoiUk9MRV9QVUJMSVNIIiwidXNlcm5hbWUiOiJ0ZXN0QGdtYWlsLmNvbSIsImV4cCI6MTcxNzkzNDYwNCwianRpIjoiS3VuVXpUZXN0In0.iHg3ryO_O5_zxDkcvhGB-IIGm_IkzmPU-AUWq0s4hmR7Xds0gUIB3xKbuWQW6qBIqJV_mv__zZTErFQ0LfB2sg
+
+
+
+
