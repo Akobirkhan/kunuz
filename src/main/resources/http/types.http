@@ -1,13 +1,13 @@
 ### 1. Create type
 POST localhost:8081/types/adm/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc2NTQyNjMsImlkIjoxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTc3NDA2NjMsImp0aSI6Ikt1blV6VGVzdCJ9.1SRBeBi8OpDvdUlJiQfE7gCHnkv0uMn-YKINB-VCGQPo75FK0n5FtXj1xTSw4ICvdaLKm205u7DKD9J3E-MMEQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTgwOTU4MzUsImlkIjo2LCJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWtvYmlycW9kaXJpeUBnbWFpbC5jb20iLCJleHAiOjE3MTgxODIyMzUsImp0aSI6Ikt1blV6VGVzdCJ9.Qsvx3CwJ01VJcXLUe5poE9ZDCJciR5nBDez5ORA3x9--jnXmhlTk575P-90eCT1SIjA3WgFc2oGHBYmfbus6Jg
 
 {
-  "nameUz": "O'zbekiston",
-  "nameRu": "Узбекистан",
-  "nameEn": "Uzbekistan",
-  "orderNumber": 7
+  "nameUz": "uzb",
+  "nameRu": "ru",
+  "nameEn": "eng",
+  "orderNumber": 8
 }
 
 ### 2. Update type

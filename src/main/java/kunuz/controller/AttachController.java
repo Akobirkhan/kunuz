@@ -30,9 +30,19 @@ public class AttachController {
 //        return ResponseEntity.ok().body(fileName);
 //    }
 
+//    @GetMapping(value = "/open/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
+//    public byte[] open(@PathVariable("fileName") String fileName)  {
+//        return this.attachService.loadImage(fileName);
+//    }
+
     @GetMapping(value = "/open/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] open(@PathVariable("fileName") String fileName) {
-        return this.attachService.loadImage(fileName);
+    public byte[] open(@PathVariable("fileName") String fileName)  {
+        return this.attachService.load(fileName);
+    }
+
+    @GetMapping(value = "/open_general/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] openGeneral(@PathVariable("fileName") String fileName)  {
+        return this.attachService.load(fileName);
     }
 
     public byte[] load(String attachId) {
@@ -43,7 +53,7 @@ public class AttachController {
             originalImage = ImageIO.read(new File("uploads/" + entity.getPath() + "/" + attachId));
             // read from system
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+            ImageIO.write(originalImage, entity.getExtension(), baos);
 
             baos.flush();
             byte[] imageInByte = baos.toByteArray();

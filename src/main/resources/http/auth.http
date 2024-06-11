@@ -59,6 +59,6 @@ POST localhost:8081/auth/login_email
 Content-Type: application/json
 
 {
-  "email": "test@gmail.com",
-  "password": "010203"
+  "email": "akobirqodiriy@gmail.com",
+  "password": "123456789"
 }

@@ -4,7 +4,7 @@ Content-Type:  application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4MzU2MDQsImlkIjo4LCJyb2xlIjoiUk9MRV9NT0RFUkFUT1IiLCJ1c2VybmFtZSI6InZhbGlAZ21haWwuY29tIiwiZXhwIjoxNzE3OTIyMDA0LCJqdGkiOiJLdW5VelRlc3QifQ.08CBCueLA60ztir9ELICN3a5IDlnrvWvFJn4rn3oP0yWKRrLucBQCKRVxGSj2wJ8oYqsRvwJwpzN1u_dSRjs_Q
 
 {
-  "title": "Sport",
+  "articleId": "Sport",
   "description": "EURO24",
   "content": "Kutib oling EURO2024 boshlanmoqda ",
   "imageId": 1,
@@ -45,6 +45,8 @@ PUT localhost:8081/article/publisher/7fea8358-77fc-4053-a897-b428af9790a3
 Content-Type:  application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTc4NDgyMDQsImlkIjo5LCJyb2xlIjoiUk9MRV9QVUJMSVNIIiwidXNlcm5hbWUiOiJ0ZXN0QGdtYWlsLmNvbSIsImV4cCI6MTcxNzkzNDYwNCwianRpIjoiS3VuVXpUZXN0In0.iHg3ryO_O5_zxDkcvhGB-IIGm_IkzmPU-AUWq0s4hmR7Xds0gUIB3xKbuWQW6qBIqJV_mv__zZTErFQ0LfB2sg
 
-
+### Get Article Top5 order by createdDate;
+GET localhost:8081/article/getTop5
+Content-Type: application/json
 
 

@@ -8,13 +8,5 @@ Content-Disposition: form-data; name="file"; filename="zari.jpg"
 < /Users/akobir/Documents/zari.jpg
 
 ### load image
-GET http://localhost:8081/attach/open/zari.jpg
+GET http://localhost:8081/attach/open/39089cb6-ea4d-41cd-a42f-1d2c7d47cd7e.jpg
 
-###
-POST http://localhost:8081/attach/upload
-Content-Type: multipart/form-data; boundary=WebAppBoundary
-
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="zari.jpg"
-
-< /Users/akobir/Documents/zari.jpg

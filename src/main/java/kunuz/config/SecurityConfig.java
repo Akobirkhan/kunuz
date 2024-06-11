@@ -49,6 +49,7 @@ public class SecurityConfig {
                     .requestMatchers("/attach/**").permitAll()
                     .requestMatchers("/types/adm/**").hasRole("ADMIN")
                     .requestMatchers("/types/lang").permitAll()
+                    .requestMatchers("/article/getTop5").permitAll()
                     .requestMatchers("/email/**").permitAll()
                     .requestMatchers("/article/moderator").hasRole("MODERATOR")
                     .anyRequest()

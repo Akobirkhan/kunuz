@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/article")
 @RestController
 public class ArticleController {
@@ -40,6 +42,11 @@ public class ArticleController {
     @PutMapping("/publisher/{id}")
     public ResponseEntity<Boolean> changeStatus(@PathVariable("id") String id){
         return ResponseEntity.ok(articleService.changeStatus(id));
+    }
+
+    @GetMapping("/getTop5")
+    public ResponseEntity<List<ArticleResponseDTO>> getArticleTop5(){
+        return ResponseEntity.ok(articleService.getTop5ArticleOrderedByCreatedDate());
     }
 
 

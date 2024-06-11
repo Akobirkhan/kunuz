@@ -118,7 +118,7 @@ public class AttachService {
         return null;
     }
 
-    public byte[] load(String attachId) {
+    public byte[]  load(String attachId) {
         BufferedImage originalImage;
         try {
             // read from db
@@ -133,6 +133,7 @@ public class AttachService {
             baos.close();
             return imageInByte;
         } catch (IOException e) {
+            e.printStackTrace();
             return new byte[0];
         }
     }

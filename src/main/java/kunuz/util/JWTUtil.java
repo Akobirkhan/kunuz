@@ -50,4 +50,9 @@ public class JWTUtil {
         }
         return new JwtDTO(id);
     }
+    public static JwtDTO getJwtDTO(String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        return JWTUtil.decode(jwt);
+    }
 }

@@ -95,6 +95,7 @@ public class ArticleService {
         articleRepository.save(entity);
         return true;
     }
+
     public Boolean changeStatus(String id) {
         ArticleEntity entity = get(id);
         if (entity.getStatus().equals(ArticleStatus.PUBLISHED))
@@ -105,4 +106,16 @@ public class ArticleService {
         return true;
     }
 
+    public List<ArticleResponseDTO> getTop5ArticleOrderedByCreatedDate() {
+        List<ArticleEntity> entityList = articleRepository.findTopByCreatedDateAndStatusAndPublishedLimit5();
+        List<ArticleResponseDTO> articleList = null;
+        for (ArticleEntity entity : entityList) {
+            articleList.add(toDTO(entity));
+        }
+        return articleList;
+    }
+
+
 }
+
+
